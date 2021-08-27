@@ -40,22 +40,22 @@ export const AuthPage = () => {
     return (
 <div className='jarallax-container-0' style= {{backgroundColor: "rgb(240, 240, 240)"}}>
 <div className="col s1 offset-s1" style={{paddingTop: '7rem', paddingBottom:'15.5rem'}}>
-        <div class="row justify-content-center mt-4">
-            <h3 class="col-lg-2 display-2">
+        <div className="row justify-content-center mt-4">
+            <h3 className="col-lg-2 display-2">
                 <strong>Просто.</strong></h3>
             
         </div>
-        <div class="row justify-content-center mt-4">
-            <div class="col-lg-2" style={{background:'#fafafa', justifyContent:'center', borderRadius:'7px'}}>
-            <p class="mt-4 display-7" style={{paddingTop:'3rem', paddingLeft:'1rem'}}>
+        <div className="row justify-content-center mt-4">
+            <div className="col-lg-2" style={{background:'#fafafa', justifyContent:'center', borderRadius:'7px'}}>
+            <p className="mt-4 display-7" style={{paddingTop:'3rem', paddingLeft:'1rem'}}>
                         Зарегистируйся или авторизуйся.
                     </p>
-                    <div class='drag-area px-3' style={{justifyContent: 'center'}}>
+                    <div className='drag-area px-3' style={{justifyContent: 'center'}}>
                     <div className="input-field " style= {{paddingBottom:'1rem'}}>
                           <input 
                           placeholder="Введите username" 
                           id="string" 
-                          class= 'form-control'
+                          className= 'form-control'
                           type="text" 
                           name='username'
                           value={form.username}
@@ -68,7 +68,7 @@ export const AuthPage = () => {
                           placeholder="Введите пароль" 
                           id="password" 
                           type="password" 
-                          class= 'form-control'
+                          className= 'form-control'
                           name='password'
                           value={form.password}
                           onChange={changeHandler}/>

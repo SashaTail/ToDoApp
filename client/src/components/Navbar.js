@@ -14,24 +14,24 @@ export const Navbar=  () =>
 
     }
     return ( 
-        <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
-        <div class="container">
-            <div class="navbar-brand">
-                <span class="navbar-logo">
+        <nav className="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+        <div className="container">
+            <div className="navbar-brand">
+                <span className="navbar-logo">
                 </span>
-                <span class="navbar-caption-wrap" ><a style={{color:'black', fontFamily:'Segoe UI', fontWeight:"500"}} href="/">Список<br/>твоих<br/>дел</a></span>
+                <span className="navbar-caption-wrap" ><a style={{color:'black', fontFamily:'Segoe UI', fontWeight:"500"}} href="/">Список<br/>твоих<br/>дел</a></span>
             </div>
-            <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
-                <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
-                <li class="nav-item" ><a class="nav-link link text-black" href="/" >Menu Item 1</a></li>
+            <div className="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+                <ul className="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
+                <li className="nav-item" ><a class="nav-link link text-black" href="/" >Menu Item 1</a></li>
                 {auth.isAuthenticated ?
-                        (<li class="nav-item" style={{paddingRight: '5rem'}}>
+                        (<li className="nav-item" style={{paddingRight: '5rem'}}>
                         
-                        <a class="nav-link link text-black" href="/" onClick={logoutHandler}>Выйти</a>
+                        <a className="nav-link link text-black" href="/" onClick={logoutHandler}>Выйти</a>
                         </li>)
-                        : (<li class="nav-item" style={{paddingRight: '5rem'}}>
+                        : (<li className="nav-item" style={{paddingRight: '5rem'}}>
                         
-                        <a class="nav-link link text-black" href="/auth">Авторизация</a>
+                        <a className="nav-link link text-black" href="/auth">Авторизация</a>
                         </li>)}
                         </ul>
                 

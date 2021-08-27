@@ -28,21 +28,22 @@ function TodoItem({todo, index, onChange})  {
     const classes = []
     if (todo.completed) {
         classes.push('done')
+        console.log(classes)
     }
 
 
     return (
         <li style={style.li}>
-        <span className={classes.join('')}>
-        <input type='checkbox' 
-        checked={todo.completed}
-        style={style.input}
-        onChange={()=> onChange(todo._id)}> 
-        </input>
+            <span className={classes.join('')}>
+                <input type='checkbox' 
+                checked={todo.completed}
+                style={style.input}
+                onChange={()=> onChange(todo._id)}> 
+                </input>
 
-        <strong>{index+1} </strong>
-        {todo.title}
-        </span>
+                <strong>{index+1} </strong>
+                {todo.title}
+            </span>
 
         <button 
         onClick = {removeToDo.bind(null,todo._id)}>
