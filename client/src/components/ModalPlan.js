@@ -1,17 +1,16 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { Button, Modal } from 'react-bootstrap';
 import { useMessage } from '../hooks/message.hook'
 import '../App.css';
 import { AuthContext } from '../context/AuthContext';
-import Todolist from '../components/Todolist';
 import Context from '../context/context';
 
 
 export const ModalPlan = () => {
       const [show, setShow] = useState(false);
       const auth = useContext(AuthContext)
-      const {loading,request,error,  clearError} = useHttp()
+      const {request,error,  clearError} = useHttp()
       const message = useMessage()
       const {updateData}= useContext(Context)
 
@@ -19,7 +18,6 @@ export const ModalPlan = () => {
         title: '', describe: ''
       })
       useEffect( () => {
-        console.log(error)
         message(error)
         clearError()
     }, [error,message,clearError])
@@ -35,6 +33,7 @@ export const ModalPlan = () => {
             Authorization: `Bearer ${auth.token}`
           })
           setShow(false)
+          console.log(data.message)
           message(data.message)
         } catch (e) {}
       }

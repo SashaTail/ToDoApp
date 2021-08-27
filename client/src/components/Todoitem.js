@@ -28,7 +28,6 @@ function TodoItem({todo, index, onChange})  {
     const classes = []
     if (todo.completed) {
         classes.push('done')
-        console.log(classes)
     }
 
 

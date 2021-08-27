@@ -10,12 +10,8 @@ export const AuthPage = () => {
         username: '', password: ''
       })
 
-      useEffect( ()=> {
-        window.M.updateTextFields()
-    },[])
 
       useEffect( () => {
-        console.log(error)
         message(error)
         clearError()
     }, [error,message,clearError])
@@ -37,6 +33,18 @@ export const AuthPage = () => {
           
         } catch (e) {}
       }
+
+      const checkHandler = async () => {
+        try {
+          const data = await request('/api/auth/check', 'GET', null, {
+            Authorization: `Bearer ${auth.token}`
+          })
+          auth.login(data.token, data.userId)
+          
+        } catch (e) {}
+      }
+
+
     return (
 <div className='jarallax-container-0' style= {{backgroundColor: "rgb(240, 240, 240)"}}>
 <div className="col s1 offset-s1" style={{paddingTop: '7rem', paddingBottom:'15.5rem'}}>
