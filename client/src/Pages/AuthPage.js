@@ -19,6 +19,14 @@ export const AuthPage = () => {
         setForm ({ ...form, [event.target.name]: event.target.value})
     }
 
+    const pressHandler = async event =>
+    {
+        if (event.key === 'Enter')
+        {
+            loginHandler()
+        }
+    }
+
     const registerHandler = async () => {
         try {
           const data = await request('/api/auth/register', 'POST', {...form})
@@ -34,17 +42,6 @@ export const AuthPage = () => {
         } catch (e) {}
       }
 
-      const checkHandler = async () => {
-        try {
-          const data = await request('/api/auth/check', 'GET', null, {
-            Authorization: `Bearer ${auth.token}`
-          })
-          auth.login(data.token, data.userId)
-          
-        } catch (e) {}
-      }
-
-
     return (
 <div className='jarallax-container-0' style= {{backgroundColor: "rgb(240, 240, 240)"}}>
 <div className="col s1 offset-s1" style={{paddingTop: '7rem', paddingBottom:'15.5rem'}}>
@@ -54,7 +51,7 @@ export const AuthPage = () => {
             
         </div>
         <div className="row justify-content-center mt-4">
-            <div className="col-lg-2" style={{background:'#fafafa', justifyContent:'center', borderRadius:'7px'}}>
+            <div className="col-lg-2" style={{background:'#fafafa', justifyContent:'center', borderRadius:'7px'}} onKeyPress={pressHandler}>
             <p className="mt-4 display-7" style={{paddingTop:'3rem', paddingLeft:'1rem'}}>
                         Зарегистируйся или авторизуйся.
                     </p>
@@ -79,7 +76,8 @@ export const AuthPage = () => {
                           className= 'form-control'
                           name='password'
                           value={form.password}
-                          onChange={changeHandler}/>
+                          onChange={changeHandler}
+                          />
                     </div>
                     </div>
                     

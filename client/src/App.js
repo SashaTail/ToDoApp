@@ -4,8 +4,8 @@ import { Navbar } from './components/Navbar';
 import { useRoutes } from './routes'
 import { useAuth } from './hooks/auth.hook';
 import { AuthContext } from './context/AuthContext';
-import React, {useEffect} from 'react';
-import { useHttp } from './hooks/http.hook';
+import React  from 'react';
+
 
 
 function App() {

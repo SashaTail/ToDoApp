@@ -89,7 +89,7 @@ async (req,res) => {
         const token = jwt.sign(
             {userId: user.id},
             config.get("jwtsecret"),
-            {expiresIn: '1h'}
+            {expiresIn: '24h'}
              )
             res.json({token, userId: user.id})
     }

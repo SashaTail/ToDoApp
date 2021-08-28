@@ -1,8 +1,7 @@
-
 import PropTypes from 'prop-types'
-import { useContext } from 'react'
+import React, {useState,useContext} from 'react';
 import Context from '../context/context'
-
+import { Button, Modal } from 'react-bootstrap';
 
 const style={
     li:
@@ -29,6 +28,14 @@ function TodoItem({todo, index, onChange})  {
     if (todo.completed) {
         classes.push('done')
     }
+    
+    const [show, setShow] = useState(false);
+    const handleClose = () => 
+    {
+        setShow(false)
+        
+    };
+  const handleShow = () => setShow(true);
 
 
     return (
@@ -39,14 +46,22 @@ function TodoItem({todo, index, onChange})  {
                 style={style.input}
                 onChange={()=> onChange(todo._id)}> 
                 </input>
-
-                <strong>{index+1} </strong>
-                {todo.title}
+                
+                <strong  onClick={handleShow}>{index+1} </strong>
+                <a  onClick={handleShow}>{todo.title}</a>
             </span>
-
+            <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{todo.title}</Modal.Title>
+        </Modal.Header>
+        {todo.describe.length>1 ?<Modal.Body><span style={{wordBreak:'break-word'}}>{todo.describe}</span></Modal.Body>:<Modal.Body>Тут ничего нет</Modal.Body>}
+        <Modal.Footer>
+        <strong>Чтобы закрыть нажмите ESC</strong>
+        </Modal.Footer>
+      </Modal>
         <button 
         onClick = {removeToDo.bind(null,todo._id)}>
-        X</button>
+        ✘</button>
         </li>
     )
 }

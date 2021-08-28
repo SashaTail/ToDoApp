@@ -67,7 +67,7 @@ return (
                 />
             </div>
             <div className="input-field " style= {{paddingBottom:'1rem'}}>
-                <input 
+                <textarea 
                 placeholder="Добавьте описание" 
                 id="describe" 
                 className= 'form-control'
