@@ -7,10 +7,11 @@ const router = Router()
 router.post('/create',auth, async (req,res) => {
     try 
     {
+        console.log(req.body)
         const todo = new Todo({
             title: req.body.title,
             describe: req.body.describe, 
-            date: Date.now().toString(), 
+            date: req.body.date, 
             owner: req.user.userId  
         })
         await todo.save()

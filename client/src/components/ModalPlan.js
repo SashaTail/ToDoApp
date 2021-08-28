@@ -1,10 +1,13 @@
-import React, {useState, useEffect, useContext} from 'react'
-import { useHttp } from '../hooks/http.hook'
+import React, {useState, useEffect, useContext} from 'react';
+import { useHttp } from '../hooks/http.hook';
 import { Button, Modal } from 'react-bootstrap';
-import { useMessage } from '../hooks/message.hook'
+import { useMessage } from '../hooks/message.hook';
 import '../App.css';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 import { AuthContext } from '../context/AuthContext';
 import Context from '../context/context';
+
 
 
 export const ModalPlan = () => {
@@ -13,9 +16,10 @@ export const ModalPlan = () => {
       const {request,error,  clearError} = useHttp()
       const message = useMessage()
       const {updateData}= useContext(Context)
-
+      const dateChanged = day => form.date=day;
+      var dt = new Date();
     const [form, setForm] = useState({
-        title: '', describe: ''
+        title: '', describe: '', date: dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate(),
       })
       useEffect( () => {
         message(error)
@@ -35,9 +39,11 @@ export const ModalPlan = () => {
           setShow(false)
           console.log(data.message)
           message(data.message)
+          form.title=''
+          form.describe=''
+          form.date=dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate()
         } catch (e) {}
       }
-
 
     
 return (
@@ -45,7 +51,7 @@ return (
     <div className='row justify-content-center' style={{paddingTop:"2rem"}}>
         <Button variant="primary" onClick={handleShow}>Добавить план</Button>
 
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose}> 
             <Modal.Header style={{justifyContent:'center'}}>
                 <Modal.Title>Добавить план</Modal.Title>
             </Modal.Header>
@@ -70,6 +76,15 @@ return (
                 value={form.describe}
                 onChange={changeHandler}
                 />
+            </div>
+            <div style={{paddingBottom:'1rem', width:'100%', justifyContent:'center', alignContent:'center'}}>
+              <DayPickerInput 
+              value={form.date}
+              onDayChange={day => dateChanged(day)}
+              inputProps={{
+                  onChange: event => dateChanged(event.target.value),
+                }}
+               />
             </div>
           <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Закрыть</Button>

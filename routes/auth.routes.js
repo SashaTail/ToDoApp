@@ -15,7 +15,7 @@ router.get('/check', auth ,async (req,res) => {
         const token = jwt.sign(
             {userId: req.user.userId},
             config.get("jwtsecret"),
-            {expiresIn: '1h'}
+            {expiresIn: '24h'}
              ) 
              res.json({token, userId: req.user.userId})
     } 

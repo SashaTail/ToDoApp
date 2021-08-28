@@ -15,15 +15,19 @@ export const PlanPage = () => {
       const auth = useContext(AuthContext)
       const {loading,request,error,  clearError} = useHttp()
       const message = useMessage()  
-
-
-      const updateAuth = useCallback( async()=>{
-        const data = request('/api/auth/check', 'GET', null, {
-          Authorization: `Bearer ${auth.token}`
-        })
-        auth.login(data.token, data.userId)
+    /*useEffect(()=>{
+      const data = request('/api/auth/check', 'GET', null, {
+        Authorization: `Bearer ${auth.token}`
       })
-      
+      auth.login(data.token, data.userId)},[])
+*/
+       //const updateAuth = useCallback( async()=>{
+       //  const data = request('/api/auth/check', 'GET', null, {
+       //    Authorization: `Bearer ${auth.token}`
+       //  })
+       //  auth.login(data.token, data.userId)
+       //})
+
       const fetchPlans = useCallback(async () => {
         try {
           const fetched = await request('/api/todo', 'GET', null, {
