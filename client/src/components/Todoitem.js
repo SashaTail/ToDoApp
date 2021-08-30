@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 import React, {useState,useContext} from 'react';
 import Context from '../context/context'
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
-const style={
+let style={
     li:
     {
         display: 'flex',
@@ -12,9 +12,9 @@ const style={
         padding: '.5rem .1rem',
         border: '1px solid #ccc',
         borderRadius:'4px',
-        marginBottom: '.5rem'
+        marginBottom: '.5rem',
+        cursor:'pointer',
     },
-
     input:
     {
         marginRight:'1rem',
@@ -39,16 +39,16 @@ function TodoItem({todo, index, onChange})  {
 
 
     return (
-        <li style={style.li}>
+        
+        <li style={style.li} onClick={handleShow}>
             <span className={classes.join('')}>
                 <input type='checkbox' 
                 checked={todo.completed}
                 style={style.input}
                 onChange={()=> onChange(todo._id)}> 
                 </input>
-                
                 <strong  onClick={handleShow}>{index+1} </strong>
-                <a  onClick={handleShow}>{todo.title}</a>
+                {todo.title}
             </span>
             <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -59,7 +59,7 @@ function TodoItem({todo, index, onChange})  {
         <strong>Чтобы закрыть нажмите ESC</strong>
         </Modal.Footer>
       </Modal>
-        <button 
+      <button 
         onClick = {removeToDo.bind(null,todo._id)}>
         ✘</button>
         </li>
