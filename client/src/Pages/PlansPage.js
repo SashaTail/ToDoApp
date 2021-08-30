@@ -1,12 +1,18 @@
+<<<<<<< HEAD
 
 import React, {useState, useEffect, useContext, useCallback} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { Button, Modal } from 'react-bootstrap';
+=======
+import React, {useState, useEffect, useContext, useCallback} from 'react'
+import { useHttp } from '../hooks/http.hook'
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
 import { useMessage } from '../hooks/message.hook'
 import '../App.css';
 import { AuthContext } from '../context/AuthContext';
 import Todolist from '../components/Todolist';
 import Context from '../context/context';
+<<<<<<< HEAD
 
 
 export const PlanPage = () => {
@@ -21,6 +27,18 @@ export const PlanPage = () => {
       
       
       
+=======
+import { ModalPlan } from '../components/ModalPlan';
+import Loader from 'react-loader-spinner'
+
+export const PlanPage = () => {
+    const [todos, settodos] = useState([])
+      const [update, setUpdate] = useState(false)
+
+      const auth = useContext(AuthContext)
+      const {request,error,  clearError} = useHttp()
+      const message = useMessage()  
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
       const fetchPlans = useCallback(async () => {
         try {
           const fetched = await request('/api/todo', 'GET', null, {
@@ -31,15 +49,23 @@ export const PlanPage = () => {
       }, [auth.token, request])
       useEffect( ()=>{
         fetchPlans()
+<<<<<<< HEAD
     },[fetchPlans])
 
 
+=======
+        setUpdate(false)
+    },[fetchPlans,update])
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
 
 
 
       function toggleToDo(id){
+<<<<<<< HEAD
           console.log(todos)
           console.log(id)
+=======
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
         settodos(todos.map(todo => {
           if (todo._id === id)
           {
@@ -55,6 +81,7 @@ export const PlanPage = () => {
 
 
 
+<<<<<<< HEAD
     const [form, setForm] = useState({
         title: '', describe: ''
       })
@@ -82,6 +109,17 @@ export const PlanPage = () => {
 
 
 
+=======
+      useEffect( () => {
+        message(error)
+        clearError()
+    }, [error,message,clearError])
+
+    function updateData(id){
+      setUpdate(id)
+    }
+  
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
       function removeToDo(id){
 
       todos.map(todo => {
@@ -91,13 +129,17 @@ export const PlanPage = () => {
           request('/api/todo/remove', 'POST', todo,{
             Authorization: `Bearer ${auth.token}`
           })
+<<<<<<< HEAD
           console.log(todo)
+=======
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
         }
         return todo
     })
     settodos(todos.filter(todo => todo._id !== id))
   }
 
+<<<<<<< HEAD
     
 return (
   <Context.Provider value={{removeToDo}}>
@@ -158,4 +200,51 @@ return (
 </div>
 </Context.Provider>
 )
+=======
+  if (todos.length<1) // загрузка окна // багается когда запускается сервер и заранее окно открыто *это не фикситься*
+  {
+    return (
+      <div style={{backgroundColor: "rgb(240, 240, 240)"}}>
+        <div style={{
+                display:'flex',
+                flexDirection:'column',
+                margin:'0 auto',
+                width:'100%',
+                maxWidth:'960px',
+                height:'100%',
+                minHeight:'830px',
+                alignItems:'center',
+                justifyContent:'center',
+                paddingTop: '2rem',
+                paddingBottom: '2rem'
+            }}>
+            <Loader type="Circles" color="#00BFFF" height={80} width={80}/>
+          </div>
+        </div>
+
+  )
+}
+return (
+    <Context.Provider value={{removeToDo,updateData}}>
+      <div style={{backgroundColor: "rgb(240, 240, 240)"}}>
+        <div style={{
+                display:'flex',
+                flexDirection:'column',
+                margin:'0 auto',
+                width:'100%',
+                maxWidth:'960px',
+                height:'100%',
+                minHeight:'830px',
+                alignItems:'center',
+                justifyContent:'center',
+                paddingTop: '2rem',
+                paddingBottom: '2rem'
+            }}>
+            <ModalPlan></ModalPlan>      
+            <Todolist todos={todos} onToggle={toggleToDo}></Todolist>
+        </div>
+      </div>
+    </Context.Provider>
+  )
+>>>>>>> bc605ef58ad588121a9c3dee414ad52edfc2d28f
 }

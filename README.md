@@ -1,2 +1,2 @@
 # ToDoApp
-React + React Native + Node JS (NEST??) 
+React + React Native + Node JS

@@ -7,10 +7,12 @@ const router = Router()
 router.post('/create',auth, async (req,res) => {
     try 
     {
+        console.log(req.body)
         const todo = new Todo({
             title: req.body.title,
             describe: req.body.describe, 
-            date: Date.now().toString(), owner: req.user.userId  //// Подумай над датой
+            date: req.body.date, 
+            owner: req.user.userId  
         })
         await todo.save()
         res.status(201).json({message: "Запланировано"})
@@ -35,6 +37,8 @@ router.get('/', auth ,async (req,res) => {
 
 })
 
+
+
 router.get('/:id',auth, async (req,res) => {
     try 
     {
@@ -47,5 +51,35 @@ router.get('/:id',auth, async (req,res) => {
     }
 
 })
+
+
+router.post('/update',auth, async (req,res) => {
+    try 
+    {
+        const todos = await Todo.findByIdAndUpdate(req.body._id, { completed: req.body.completed })
+        res.json(todos)
+
+    } 
+    catch (e) {
+        res.status(500).json({message: "Что то пошло не так:("})
+    }
+
+})
+
+router.post('/remove',auth, async (req,res) => {
+    try 
+    {
+        const todos = await Todo.findByIdAndRemove(req.body._id)
+        res.json(todos)
+        
+    } 
+    catch (e) {
+        res.status(500).json({message: "Что то пошло не так:("})
+    }
+
+})
+
+
+
 
 module.exports = router
