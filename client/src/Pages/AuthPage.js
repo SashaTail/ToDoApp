@@ -43,7 +43,7 @@ export const AuthPage = () => {
       }
 
     return (
-<div className='jarallax-container-0' style= {{backgroundColor: "rgb(240, 240, 240)"}}>
+<div style= {{backgroundColor: "rgb(240, 240, 240)", display:'flex', maxHeight:'830px'}}>
 <div className="col s1 offset-s1" style={{paddingTop: '7rem', paddingBottom:'15.5rem'}}>
         <div className="row justify-content-center mt-4">
             <h3 className="col-lg-2 display-2">
