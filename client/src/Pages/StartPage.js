@@ -27,7 +27,7 @@ return (
                 fontSize:'6rem',
                 marginBottom:'-1rem',
                 textAlign:'left',
-                color:'black'
+                color:'black',
             }}>Список твоих <br/> дел</h1>
             <p style = {{
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
