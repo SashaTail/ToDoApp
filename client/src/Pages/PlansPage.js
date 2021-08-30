@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 import React, {useState, useEffect, useContext, useCallback} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { Button, Modal } from 'react-bootstrap';
