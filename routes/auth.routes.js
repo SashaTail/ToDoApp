@@ -3,10 +3,28 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config');
 const {check, validationResult} = require('express-validator')
-
-const User= require("../models/user")
+const User= require("../models/user");
+const auth = require("../middleware/auth.middleware");
 
 const router = Router()
+
+router.get('/check', auth ,async (req,res) => {
+    try 
+    {
+        console.log(req.user.userId)
+        const token = jwt.sign(
+            {userId: req.user.userId},
+            config.get("jwtsecret"),
+            {expiresIn: '24h'}
+             ) 
+             res.json({token, userId: req.user.userId})
+    } 
+    catch (e) {
+        res.status(500).json({message: "Что то пошло не так:("})
+    }
+
+})
+
 // reg  
 router.post('/register',
 [
@@ -15,7 +33,6 @@ router.post('/register',
 async (req,res) => {
     try 
     {   
-        console.log(req.body)
         const errors = validationResult(req)
         if (!errors.isEmpty())
         {
@@ -72,14 +89,16 @@ async (req,res) => {
         const token = jwt.sign(
             {userId: user.id},
             config.get("jwtsecret"),
-            {expiresIn: '1h'}
+            {expiresIn: '24h'}
              )
             res.json({token, userId: user.id})
     }
     catch (e) {
         
     }
-    
 })
+
+
+
 
 module.exports = router

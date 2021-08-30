@@ -1,33 +1,34 @@
+import './header.css';
 import React, { useContext } from 'react'
-import { NavLink , useHistory} from 'react-router-dom'
-
+import {useHistory} from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 export const Navbar=  () =>
 {
     const history = useHistory()
+    const auth = useContext(AuthContext)
     const logoutHandler = event =>{
         event.preventDefault()
-        
+        auth.logout()
         history.push('/')
 
     }
     return ( 
-        <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
-        <div class="container">
-            <div class="navbar-brand">
-                <span class="navbar-logo">
-                </span>
-                <span class="navbar-caption-wrap" ><a class="navbar-caption text-black" href="https://mobiri.se">Список<br/>твоих<br/>дел</a></span>
+        <div className='container_nav'>
+                <div className="logo_nav">
+                <a className="logo_text_" style={{textDecoration: 'none'}} href="/">Список<br/>твоих<br/>дел</a>
             </div>
-            <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
-                <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
-                <li class="nav-item" ><a class="nav-link link text-black" href="https://mobirise.com" >Menu Item 1</a></li>
-                    <li class="nav-item" style={{paddingRight: '5rem'}}><a class="nav-link link text-black" href="https://mobirise.com">
-                            Авторизация</a></li></ul>
-                
-                
+            <ul>
+            <div className="navigation_">
+                    <li className="navigation_item_">
+                        <a className="navigation_text_" style={{textDecoration: 'none'}} href='/'>Menu Item1</a>
+                    </li>
+                    {auth.isAuthenticated ?
+                        (<li className="navigation_item_"><a  className= "navigation_text_" style={{textDecoration: 'none'}} href='/' onClick={logoutHandler}>Выйти</a></li>) :
+                        (<li className="navigation_item_"><a  className= "navigation_text_" style={{textDecoration: 'none'}} href='/auth'>Авторизация</a></li>)}
             </div>
+            </ul>
+            
         </div>
-    </nav>
 
     )
 }

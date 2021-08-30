@@ -10,12 +10,8 @@ export const AuthPage = () => {
         username: '', password: ''
       })
 
-      useEffect( ()=> {
-        window.M.updateTextFields()
-    },[])
 
       useEffect( () => {
-        console.log(error)
         message(error)
         clearError()
     }, [error,message,clearError])
@@ -23,11 +19,18 @@ export const AuthPage = () => {
         setForm ({ ...form, [event.target.name]: event.target.value})
     }
 
+    const pressHandler = async event =>
+    {
+        if (event.key === 'Enter')
+        {
+            loginHandler()
+        }
+    }
+
     const registerHandler = async () => {
         try {
           const data = await request('/api/auth/register', 'POST', {...form})
           message(data.message)
-          console.log(form)
         } catch (e) {}
       }
 
@@ -35,26 +38,34 @@ export const AuthPage = () => {
         try {
           const data = await request('/api/auth/login', 'POST', {...form})
           auth.login(data.token, data.userId)
+          
         } catch (e) {}
       }
+
     return (
-        <div className='row justify-content-center'>
-            <div className="col s6 offset-s3">
-                <div className="card blue-grey darken-1">
-                  <div className="card-content white-text">
-                    <span className="card-title">Auth</span>
-
-
-                    <div className="input-field">
+<div style= {{backgroundColor: "rgb(240, 240, 240)", display:'flex', maxHeight:'830px'}}>
+<div className="col s1 offset-s1" style={{paddingTop: '7rem', paddingBottom:'15.5rem'}}>
+        <div className="row justify-content-center mt-4">
+            <h3 className="col-lg-2 display-2">
+                <strong>Просто.</strong></h3>
+            
+        </div>
+        <div className="row justify-content-center mt-4">
+            <div className="col-lg-2" style={{background:'#fafafa', justifyContent:'center', borderRadius:'7px'}} onKeyPress={pressHandler}>
+            <p className="mt-4 display-7" style={{paddingTop:'3rem', paddingLeft:'1rem'}}>
+                        Зарегистируйся или авторизуйся.
+                    </p>
+                    <div className='drag-area px-3' style={{justifyContent: 'center'}}>
+                    <div className="input-field " style= {{paddingBottom:'1rem'}}>
                           <input 
                           placeholder="Введите username" 
                           id="string" 
+                          className= 'form-control'
                           type="text" 
                           name='username'
                           value={form.username}
                           onChange={changeHandler}
                           />
-                          <label htmlFor="username">username</label>
                     </div>
 
                     <div className="input-field">
@@ -62,21 +73,24 @@ export const AuthPage = () => {
                           placeholder="Введите пароль" 
                           id="password" 
                           type="password" 
+                          className= 'form-control'
                           name='password'
                           value={form.password}
-                          onChange={changeHandler}/>
-                          
-                          <label htmlFor="password">password</label>
+                          onChange={changeHandler}
+                          />
+                    </div>
                     </div>
                     
-                  </div>
-                  <div className="card-action">
+                  <div className="row justify-content-center mt-4" style={{paddingBottom:'3rem'}}>
                     <button className="btn yellow darken-4" style ={{ marginRight: 10}} onClick={loginHandler} disabled = {loading}>Log in</button>
                     <button className="btn yellow darken-4" onClick={registerHandler} disabled = {loading}>Sign in</button>
 
                   </div>
-                </div>
-            </div>
-        </div>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+                  
+
     )
 }
