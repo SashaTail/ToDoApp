@@ -37,7 +37,6 @@ export const ModalPlan = () => {
             Authorization: `Bearer ${auth.token}`
           })
           setShow(false)
-          console.log(data.message)
           message(data.message)
           form.title=''
           form.describe=''

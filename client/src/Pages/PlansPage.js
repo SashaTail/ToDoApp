@@ -13,7 +13,7 @@ export const PlanPage = () => {
       const [update, setUpdate] = useState(false)
 
       const auth = useContext(AuthContext)
-      const {loading,request,error,  clearError} = useHttp()
+      const {request,error,  clearError} = useHttp()
       const message = useMessage()  
       const fetchPlans = useCallback(async () => {
         try {
@@ -53,7 +53,6 @@ export const PlanPage = () => {
 
     function updateData(id){
       setUpdate(id)
-      console.log(loading)
     }
   
       function removeToDo(id){
