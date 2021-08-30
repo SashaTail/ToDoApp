@@ -37,7 +37,6 @@ export const ModalPlan = () => {
             Authorization: `Bearer ${auth.token}`
           })
           setShow(false)
-          console.log(data.message)
           message(data.message)
           form.title=''
           form.describe=''
@@ -47,9 +46,8 @@ export const ModalPlan = () => {
 
     
 return (
-<div className='jarallax-container-0' style= {{backgroundColor: "rgb(240, 240, 240)"}}>
-    <div className='row justify-content-center' style={{paddingTop:"2rem"}}>
-        <Button variant="primary" onClick={handleShow}>Добавить план</Button>
+  <div>
+        <Button variant="primary" style={{marginBottom:'1rem'}} onClick={handleShow}>Добавить план</Button>
 
         <Modal show={show} onHide={handleClose}> 
             <Modal.Header style={{justifyContent:'center'}}>
@@ -95,8 +93,7 @@ return (
                 </Button>
           </Modal.Footer>
         </Modal>
-    </div>
-</div>
+        </div>
 )
 }
 export default ModalPlan
