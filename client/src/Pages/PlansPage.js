@@ -1,15 +1,35 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> main
+=======
+import React, {useState, useEffect, useContext, useCallback} from 'react'
+import { useHttp } from '../hooks/http.hook'
+=======
+
+>>>>>>> client
 import React, {useState, useEffect, useContext, useCallback} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { Button, Modal } from 'react-bootstrap';
+>>>>>>> main
 import { useMessage } from '../hooks/message.hook'
 import '../App.css';
 import { AuthContext } from '../context/AuthContext';
 import Todolist from '../components/Todolist';
 import Context from '../context/context';
+<<<<<<< HEAD
+import { ModalPlan } from '../components/ModalPlan';
+import Loader from 'react-loader-spinner'
+
+export const PlanPage = () => {
+    const [todos, settodos] = useState([])
+      const [update, setUpdate] = useState(false)
+
+      const auth = useContext(AuthContext)
+      const {request,error,  clearError} = useHttp()
+      const message = useMessage()  
+=======
 
 
 export const PlanPage = () => {
@@ -24,6 +44,7 @@ export const PlanPage = () => {
       
       
       
+>>>>>>> main
       const fetchPlans = useCallback(async () => {
         try {
           const fetched = await request('/api/todo', 'GET', null, {
@@ -34,15 +55,23 @@ export const PlanPage = () => {
       }, [auth.token, request])
       useEffect( ()=>{
         fetchPlans()
+<<<<<<< HEAD
+        setUpdate(false)
+    },[fetchPlans,update])
+=======
     },[fetchPlans])
 
 
+>>>>>>> main
 
 
 
       function toggleToDo(id){
+<<<<<<< HEAD
+=======
           console.log(todos)
           console.log(id)
+>>>>>>> main
         settodos(todos.map(todo => {
           if (todo._id === id)
           {
@@ -58,6 +87,17 @@ export const PlanPage = () => {
 
 
 
+<<<<<<< HEAD
+      useEffect( () => {
+        message(error)
+        clearError()
+    }, [error,message,clearError])
+
+    function updateData(id){
+      setUpdate(id)
+    }
+  
+=======
     const [form, setForm] = useState({
         title: '', describe: ''
       })
@@ -85,6 +125,7 @@ export const PlanPage = () => {
 
 
 
+>>>>>>> main
       function removeToDo(id){
 
       todos.map(todo => {
@@ -94,13 +135,63 @@ export const PlanPage = () => {
           request('/api/todo/remove', 'POST', todo,{
             Authorization: `Bearer ${auth.token}`
           })
+<<<<<<< HEAD
+=======
           console.log(todo)
+>>>>>>> main
         }
         return todo
     })
     settodos(todos.filter(todo => todo._id !== id))
   }
 
+<<<<<<< HEAD
+  if (todos.length<1) // загрузка окна // багается когда запускается сервер и заранее окно открыто *это не фикситься*
+  {
+    return (
+      <div style={{backgroundColor: "rgb(240, 240, 240)"}}>
+        <div style={{
+                display:'flex',
+                flexDirection:'column',
+                margin:'0 auto',
+                width:'100%',
+                maxWidth:'960px',
+                height:'100%',
+                minHeight:'830px',
+                alignItems:'center',
+                justifyContent:'center',
+                paddingTop: '2rem',
+                paddingBottom: '2rem'
+            }}>
+            <Loader type="Circles" color="#00BFFF" height={80} width={80}/>
+          </div>
+        </div>
+
+  )
+}
+return (
+    <Context.Provider value={{removeToDo,updateData}}>
+      <div style={{backgroundColor: "rgb(240, 240, 240)"}}>
+        <div style={{
+                display:'flex',
+                flexDirection:'column',
+                margin:'0 auto',
+                width:'100%',
+                maxWidth:'960px',
+                height:'100%',
+                minHeight:'830px',
+                alignItems:'center',
+                justifyContent:'center',
+                paddingTop: '2rem',
+                paddingBottom: '2rem'
+            }}>
+            <ModalPlan></ModalPlan>      
+            <Todolist todos={todos} onToggle={toggleToDo}></Todolist>
+        </div>
+      </div>
+    </Context.Provider>
+  )
+=======
     
 return (
   <Context.Provider value={{removeToDo}}>
@@ -161,4 +252,5 @@ return (
 </div>
 </Context.Provider>
 )
+>>>>>>> main
 }
