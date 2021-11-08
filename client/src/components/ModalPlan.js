@@ -1,30 +1,35 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useHttp } from '../hooks/http.hook';
 import { Button, Modal } from 'react-bootstrap';
-import { useMessage } from '../hooks/message.hook';
 import '../App.css';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { AuthContext } from '../context/AuthContext';
-import Context from '../context/context';
+import { useDispatch } from 'react-redux';
+import { addTodos } from '../redux/actions/todo';
+import {  useToasts } from 'react-toast-notifications';
+
+
 
 
 
 export const ModalPlan = () => {
+  
+    const dispatch = useDispatch()
       const [show, setShow] = useState(false);
       const auth = useContext(AuthContext)
       const {request,error,  clearError} = useHttp()
-      const message = useMessage()
-      const {updateData}= useContext(Context)
+
+      const { addToast } = useToasts();
       const dateChanged = day => form.date=day;
       var dt = new Date();
     const [form, setForm] = useState({
         title: '', describe: '', date: dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate(),
       })
       useEffect( () => {
-        message(error)
+        console.log(error)
         clearError()
-    }, [error,message,clearError])
+    }, [error,clearError])
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const changeHandler = event => {
@@ -37,7 +42,8 @@ export const ModalPlan = () => {
             Authorization: `Bearer ${auth.token}`
           })
           setShow(false)
-          message(data.message)
+          dispatch(addTodos(data.todo)) // добавление загруженного массива из бд*ошибка при которой не работало edit_todo, remove_to
+          addToast(data.message, { appearance: 'success' });
           form.title=''
           form.describe=''
           form.date=dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate()
@@ -87,8 +93,7 @@ return (
           <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Закрыть</Button>
                 <Button variant="primary" 
-                onClick={createHandler} 
-                onClickCapture={updateData.bind(null,true)}>
+                onClick={createHandler}>
                 Сохранить
                 </Button>
           </Modal.Footer>

@@ -5,7 +5,8 @@ import { useRoutes } from './routes'
 import { useAuth } from './hooks/auth.hook';
 import { AuthContext } from './context/AuthContext';
 import React  from 'react';
-
+import 'materialize-css'
+import { ToastProvider } from 'react-toast-notifications';
 
 
 function App() {
@@ -17,12 +18,14 @@ function App() {
   const routes= useRoutes(isAuthenticated)
   return (
     <AuthContext.Provider value={ {token,login,logout,userId,isAuthenticated,check}}>
-    <Router>
+    <ToastProvider>
     <Navbar></Navbar>
+    <Router>
     <div>
        {routes}
     </div>
     </Router>
+  </ToastProvider>
     </AuthContext.Provider>
   );
 }

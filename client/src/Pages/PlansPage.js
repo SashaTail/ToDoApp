@@ -1,76 +1,51 @@
 import React, {useState, useEffect, useContext, useCallback} from 'react'
 import { useHttp } from '../hooks/http.hook'
-import { useMessage } from '../hooks/message.hook'
 import '../App.css';
 import { AuthContext } from '../context/AuthContext';
 import Todolist from '../components/Todolist';
-import Context from '../context/context';
 import { ModalPlan } from '../components/ModalPlan';
 import Loader from 'react-loader-spinner'
+import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector} from 'react-redux'
+import { setTodos } from '../redux/actions/todo';
+
+
 
 export const PlanPage = () => {
-    const [todos, settodos] = useState([])
-      const [update, setUpdate] = useState(false)
-
-      const auth = useContext(AuthContext)
-      const {request,error,  clearError} = useHttp()
-      const message = useMessage()  
-      const fetchPlans = useCallback(async () => {
-        try {
-          const fetched = await request('/api/todo', 'GET', null, {
-            Authorization: `Bearer ${auth.token}`
-          })
-          settodos(fetched)
-        } catch (e) {}
-      }, [auth.token, request])
-      useEffect( ()=>{
-        fetchPlans()
-        setUpdate(false)
-    },[fetchPlans,update])
-
-
-
-      function toggleToDo(id){
-        settodos(todos.map(todo => {
-          if (todo._id === id)
-          {
-            todo.completed=!todo.completed
-            request('/api/todo/update', 'POST', todo,{
-              Authorization: `Bearer ${auth.token}`
-            })
-            
-          }
-          return todo
-      }))
+  const dispatch = useDispatch()
+  const items = useSelector(({todos})=>{
+    return {
+      todos: todos.items
     }
 
+  })
+
+  const [completed, setCompleted] = useState(true)
+  const auth = useContext(AuthContext)
+  const {request,error, loading, clearError} = useHttp() 
+  const fetchPlans = useCallback(async () => {
+    try {
+      let test=!completed
+      const fetched = await request(`/api/todo?completed=${test}`, 'GET', null, {
+        Authorization: `Bearer ${auth.token}`
+      })
+      dispatch((setTodos(fetched)))
+
+    } catch (e) {}
+  }, [auth.token, request,dispatch,completed])
 
 
-      useEffect( () => {
-        message(error)
-        clearError()
-    }, [error,message,clearError])
+  useEffect( ()=>{
+    fetchPlans()
+  },[fetchPlans])
 
-    function updateData(id){
-      setUpdate(id)
-    }
+  useEffect( () => { //проверка ошибок
+    console.log(error)
+    clearError()
+    }, [error,clearError])
+
   
-      function removeToDo(id){
-
-      todos.map(todo => {
-        if (todo._id === id)
-        {
-          
-          request('/api/todo/remove', 'POST', todo,{
-            Authorization: `Bearer ${auth.token}`
-          })
-        }
-        return todo
-    })
-    settodos(todos.filter(todo => todo._id !== id))
-  }
-
-  if (todos.length<1) // загрузка окна // багается когда запускается сервер и заранее окно открыто *это не фикситься*
+  if (loading) 
   {
     return (
       <div style={{backgroundColor: "rgb(240, 240, 240)"}}>
@@ -94,7 +69,6 @@ export const PlanPage = () => {
   )
 }
 return (
-    <Context.Provider value={{removeToDo,updateData}}>
       <div style={{backgroundColor: "rgb(240, 240, 240)"}}>
         <div style={{
                 display:'flex',
@@ -106,13 +80,15 @@ return (
                 minHeight:'830px',
                 alignItems:'center',
                 justifyContent:'center',
-                paddingTop: '2rem',
-                paddingBottom: '2rem'
+                paddingBottom: '9rem'
             }}>
-            <ModalPlan></ModalPlan>      
-            <Todolist todos={todos} onToggle={toggleToDo}></Todolist>
+            
+            {completed ?
+            (<Button onClick={()=> setCompleted(false)} style={{marginTop:'1rem', marginBottom:'1rem'}}>Выполненные</Button>)
+            : (<Button onClick={()=> setCompleted(true)} style={{marginTop:'1rem', marginBottom:'1rem'}} >Невыполненные</Button>)}
+            <ModalPlan></ModalPlan>   
+            <Todolist todos={items.todos}></Todolist>   
         </div>
       </div>
-    </Context.Provider>
   )
 }

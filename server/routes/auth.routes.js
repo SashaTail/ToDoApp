@@ -11,16 +11,17 @@ const {User}=require('../models/models')
 
 const router = Router()
 
-router.get('/check', auth ,async (req,res) => {
+router.post('/check', async (req,res) => {
     try 
     {
-        console.log(req.user.userId)
-        const token = jwt.sign(
-            {userId: req.user.userId},
-            config.get("jwtsecret"),
-            {expiresIn: '24h'}
-             ) 
-             res.json({token, userId: req.user.userId})
+    const {username} = req.body
+    
+    const candidate = await User.findOne({ where: { username: username } })
+        if (candidate){
+           return res.status(200).json({color: "red"})
+        }
+    res.status(201).json({color:"green"})
+
     } 
     catch (e) {
         res.status(500).json({message: "Что то пошло не так:("})
@@ -37,7 +38,7 @@ async (req,res) => {
     try 
     {   
         const errors = validationResult(req)
-        if (!errors.isEmpty())
+        if (!errors.isEmpty()) 
         {
             return res.status(400).json({
                 errors: errors.array(),
@@ -45,7 +46,7 @@ async (req,res) => {
             })
         }
         const {username,password} = req.body
-        const candidate = await User.findOne({username})
+        const candidate = await User.findOne({ where: { username: username } })
         if (candidate){
            return res.status(400).json({message: "Такой пользователь уже существует"})
         }
@@ -54,7 +55,7 @@ async (req,res) => {
         await newUser.save()*/
         const obj = {username,password: hashedPassword }
         console.log(obj)
-        const nov= await User.create(obj) 
+        await User.create(obj) 
         
         res.status(201).json({message:"Пользователь создан"})
 
@@ -84,7 +85,7 @@ async (req,res) => {
             })
         }
         const {username,password} = req.body
-        const user = await User.findOne({username})
+        const user = await User.findOne({ where: { username: username } })
         if (!user)
         {
             return res.status(400).json({message: "Пользователь не найден"})

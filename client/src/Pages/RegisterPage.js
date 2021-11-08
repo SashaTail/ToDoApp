@@ -4,24 +4,34 @@ import { useHttp } from '../hooks/http.hook'
 
 
 import {  useToasts } from 'react-toast-notifications';
-export const AuthPage = () => {
+export const RegisterPage = () => {
     const auth = useContext(AuthContext)
-    const {loading,request,error,  clearError} = useHttp()
+    const {loading,request,error,  clearError, setLoading} = useHttp()
     const [form, setForm] = useState({
         username: '', password: ''
       })
+    const [color, setColor] = useState('white')
     
       const { addToast } = useToasts();
     
 
-    const changeHandler = event => {
+    const changeHandler = async event => {
         setForm ({ ...form, [event.target.name]: event.target.value})
+
+
+        const obj= {username:form.username}
+        const data = await request('/api/auth/check', 'POST', obj)
+        setColor(data.color)
+        if (color === 'red')
+        {
+          setLoading(true)
+        }
     }
     const pressHandler = async event =>
     {
         if (event.key === 'Enter')
         {
-            loginHandler()
+            registerHandler()
         }
     }
 
@@ -32,19 +42,6 @@ export const AuthPage = () => {
         } catch (e) {}
       }
 
-      const loginHandler = async () => {
-        try {
-          const data = await request('/api/auth/login', 'POST', {...form})
-          auth.login(data.token, data.userId)
-          addToast('Авторизован успешно', { appearance: 'success' });
-          
-        } catch (e) {
-          if (e){
-            addToast(e.message,{appearance:'error'})
-            clearError()
-          }
-        }
-      }
 
     return (
 <div style= {{backgroundColor: "rgb(240, 240, 240)", display:'flex', maxHeight:'830px'}}>
@@ -57,7 +54,7 @@ export const AuthPage = () => {
         <div className="row justify-content-center mt-4">
             <div className="col-lg-2" style={{background:'#fafafa', justifyContent:'center', borderRadius:'7px'}} onKeyPress={pressHandler}>
             <p className="mt-4 display-7" style={{paddingTop:'3rem', paddingLeft:'1rem'}}>
-                        Авторизуйся.
+                        Зарегистируйся.
                     </p>
                     <div className='drag-area px-3' style={{justifyContent: 'center'}}>
                     <div className="input-field " style= {{paddingBottom:'1rem'}}>
@@ -69,6 +66,7 @@ export const AuthPage = () => {
                           name='username'
                           value={form.username}
                           onChange={changeHandler}
+                          style={{backgroundColor:color}}
                           />
                     </div>
 
@@ -86,8 +84,8 @@ export const AuthPage = () => {
                     </div>
                     
                   <div className="row justify-content-center mt-4" style={{paddingBottom:'3rem'}}>
-                    <button className="btn yellow darken-4" style ={{ marginRight: 10}} onClick={loginHandler} disabled = {loading}>Log in</button>
-                    <a href='/register' style={{cursor:"pointer", color:'blue'}}>Нет аккаунта?</a>
+                    <button className="btn yellow darken-4" style ={{ marginRight: 10}} onClick={registerHandler} disabled = {loading}>Sign In</button>
+                    <a href='/auth' style={{cursor:"pointer", color:'blue'}}>Есть аккаунт?</a>
 
                   </div>
                   </div>
